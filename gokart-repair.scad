@@ -23,7 +23,7 @@ cnut_diameter        = 28; //mm - this is the circular diameter not nut size
 // Base parameters
 base_height          = 5;  //mm
 base_diameter_large  = 90; //mm
-base_diameter_small  = 82; //mm
+base_diameter_small  = 83; //mm
 
 // Core parameters
 core_diameter_large  = base_diameter_large/2; //mm

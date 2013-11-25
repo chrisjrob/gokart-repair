@@ -18,7 +18,6 @@
 
 // Nut parameters
 nut_diameter         = 27; //mm - this is the circular diameter not nut size
-cnut_diameter        = 28; //mm - this is the circular diameter not nut size
 
 // Base parameters
 base_height          = 5;  //mm
@@ -44,19 +43,25 @@ module buttress(r1, r2, h, b) {
 
         // Things that exist
         union() {
+            // Start with a cone shape created using cylinder
             cylinder( r1 = r1, r2 = r2, h, $fn = circular_precision );
         }
 
         // Things that don't exist
         union() {
+            // Remove first one side
             translate( v = [-r1, b/2, -shim] ) {
                 cube( size = [ r1*2, r1*2, h + 0.2] );
             }
+
+            // And then the other
             translate( v = [-r1, -b/2, -shim] ) {
                 mirror([ 0, 1, 0 ]) {
                     cube( size = [ r1*2, r1*2, h + 0.2] );
                 }
             }
+
+            // Finally halve the remaining slice of cone - to create the final buttress
             translate( v = [-r1*2, -r1, -shim] ) {
                 cube( size = [ r1*2, r1*2, h + 0.2] );
             }
@@ -73,37 +78,34 @@ module repair() {
 
         // Things that exist
         union() {
+            // The base
             cylinder( r1 = base_diameter_large/2, r2 = base_diameter_small/2, base_height, $fn = circular_precision );
+
+            // The core - the cone part that will contain the nut
             translate( v = [0, 0, base_height] ) {
                 cylinder( r1 = core_diameter_large/2, r2 = core_diameter_small/2, core_height, $fn = circular_precision );
             }
+
+            // The buttresses
             for (a = [30 : 60 : 360] ) {
                 rotate( a = [0, 0, a] ) {
                     buttress( base_diameter_large/2, core_diameter_small/2, base_height + core_height, buttress_width );
                 }
             }
-            // translate( v = [0, -23/2, base_height + core_height - 23/2] ) {
-            //     cube( size = [ 10, 23, 23] );
-            // }
 
         }
 
         // Things that don't exist
         union() {
+            // The nut hole
             translate( v = [0, 0, base_height +shim] ) {
-                nut(nut_diameter/2, core_height);
+                cylinder( r = nut_diameter/2, h = core_height, $fn = 6 );
             }
-            // Chamferring for nut entrance
-            for (a = [30 : 60 : 360] ) {
-                rotate( a = [0, 0, a] ) {
-                    translate( v = [-cnut_diameter/2, -cnut_diameter/4 *1.15, base_height + core_height] ) {
-                        rotate( a = [0, 45, 0] ) {
-                            cube( size = [cnut_diameter/8,cnut_diameter/2 *1.15,cnut_diameter/16] );
-                        }
-                    }
-                }
+            // Chamferring nut entrance
+            translate( v = [0, 0, base_height + core_height - 3]) {
+                cylinder(r2=nut_diameter/2 + 3,r1=nut_diameter/2,h=3+shim,$fn=6);
             }
-            // Bolt holes
+            // Bolt holes around base
             for (a = [0 : 60 : 360] ) {
                 rotate( a = [0, 0, a] ) {
                     translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2, 0, -shim] ) {
@@ -113,19 +115,6 @@ module repair() {
             }
         }
     
-    }
-
-}
-
-module nut(r,h) {
-
-    difference() {
-
-        // Things that exist
-        union() {
-            cylinder( r = r, h = h, $fn = 6 );
-        }
-
     }
 
 }

@@ -36,6 +36,7 @@ buttress_width       = 4; //mm
 // Other parameters
 hole_diameter        = 5; //mm
 circular_precision   = 100;
+shim                 = 0.1; //mm
 
 module buttress(r1, r2, h, b) {
 
@@ -48,15 +49,15 @@ module buttress(r1, r2, h, b) {
 
         // Things that don't exist
         union() {
-            translate( v = [-r1, b/2, -0.1] ) {
+            translate( v = [-r1, b/2, -shim] ) {
                 cube( size = [ r1*2, r1*2, h + 0.2] );
             }
-            translate( v = [-r1, -b/2, -0.1] ) {
+            translate( v = [-r1, -b/2, -shim] ) {
                 mirror([ 0, 1, 0 ]) {
                     cube( size = [ r1*2, r1*2, h + 0.2] );
                 }
             }
-            translate( v = [-r1*2, -r1, -0.1] ) {
+            translate( v = [-r1*2, -r1, -shim] ) {
                 cube( size = [ r1*2, r1*2, h + 0.2] );
             }
 
@@ -89,7 +90,7 @@ module repair() {
 
         // Things that don't exist
         union() {
-            translate( v = [0, 0, base_height +0.1] ) {
+            translate( v = [0, 0, base_height +shim] ) {
                 nut(nut_diameter/2, core_height);
             }
             // Chamferring for nut entrance
@@ -105,7 +106,7 @@ module repair() {
             // Bolt holes
             for (a = [0 : 60 : 360] ) {
                 rotate( a = [0, 0, a] ) {
-                    translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2, 0, -0.1] ) {
+                    translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2, 0, -shim] ) {
                         cylinder( r = hole_diameter/2, base_height + 0.2, $fn = circular_precision );
                     }
                 }
@@ -130,59 +131,4 @@ module nut(r,h) {
 }
 
 repair();
-
-// -------------------------------------------------------------------------------------------
-// Commands
-// -------------------------------------------------------------------------------------------
-
-// http://en.wikibooks.org/wiki/OpenSCAD_User_Manual
-
-// primitives
-// cube(size = [1,2,3], center = true);
-// sphere( r = 10, $fn=100 );
-// circle( r = 10 );
-// cylinder( h = 10, r = 20, $fs = 6, center = true );
-// cylinder( h = 10, r1 = 10, r2 = 20, $fs = 6, center = false );
-// polyhedron(points = [ [x, y, z], ... ], triangles = [ [p1, p2, p3..], ... ], convexity = N);
-// polygon(points = [ [x, y], ... ], paths = [ [p1, p2, p3..], ... ], convexity = N);
-
-// transormations
-// scale(v = [x, y, z]) { ... }
-// rotate(a=[0,180,0]) { ... }
-// translate(v = [x, y, z]) { ... }
-// mirror([ 0, 1, 0 ]) { ... }
-
-// rounded box by combining a cube and single cylinder
-// $fn=50;
-// minkowski() {
-//   cube([10,10,1]);
-//   cylinder(r=2,h=1);
-// }
-
-// hull() {
-//   translate([15,10,0]) circle(10);
-//   circle(10);
-// }
-
-// linear_extrude(height=1, convexity = 1) import("tridentlogo.dxf");
-// deprecated - dxf_linear_extrude(file="tridentlogo.dxf", height = 1, center = false, convexity = 10);
-// deprecated - import_dxf(file="design.dxf", layer="layername", origin = [100,100], scale = 0.5);
-// linear_extrude(height = 10, center = true, convexity = 10, twist = 0, $fn = 100)
-// rotate_extrude(convexity = 10, $fn = 100)
-// import_stl("example012.stl", convexity = 5);
-
-// for (z = [-1, 1] ) { ... } // two iterations, z = -1, z = 1
-// for (z = [ 0 : 5 ] ) { ... } // range of interations step 1
-// for (z = [ 0 : 2 : 5 ] ) { ... } // range of interations step 2
-
-// for (i = [ [ 0, 0, 0 ], [...] ] ) { ... } // range of rotations or vectors
-// usage say rotate($i) or translate($i)
-// if ( x > y ) { ... } else { ... }
-// assign (angle = i*360/20, distance = i*10, r = i*2)
-
-// text http://www.thingiverse.com/thing:25036
-// inkscape / select all items
-// objects to path
-// select the object to export
-// extensions / generate from path / paths to openscad
 

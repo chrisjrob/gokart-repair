@@ -35,6 +35,11 @@ pin_diameter         = 0.1; //m
 circular_precision   = 100;
 shim                 = 0.1; //mm
 
+// Selection:
+// 1 = the whole thing
+// 2 = nut test - for checking actual size of nut hole
+select = 1;
+
 module repair() {
 
     difference() {
@@ -88,5 +93,22 @@ module repair() {
 
 }
 
-repair();
+if (select == 1) {
+    repair();
+}
+
+if (select == 2) {
+    difference() {
+        union() {
+            translate( [0, 0, -core_height * 0.85] ) {
+                repair();
+            }
+        }
+        union() {
+            translate( [-base_diameter_large/2, -base_diameter_large/2, -core_height] ) {
+                # cube( [base_diameter_large, base_diameter_large, core_height] );
+            }
+        }
+    }
+}
 

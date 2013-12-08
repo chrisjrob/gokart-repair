@@ -16,8 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// Extrusion width in mm
+printer_extrusion_width = 0.6; //mm
+
 // Nut parameters
-nut_diameter         = 27; //mm - this is the circular diameter not nut size
+// What you need is the diameter of the circle around the nut
+// a. you may enter the nut size (i.e. the spanner size):
+nut_size             = 22.52; //mm - the nut "spanner" size
+// b. or you may enter the nut diameter (which will always be twice once of the side lengths):
+nut_diameter         = (((nut_size/2) / cos(30)) + printer_extrusion_width) *2; //mm - this is the circular diameter not nut size
+// nut_diameter      = 27; //mm - uncomment line to over-ride calculation from nut size
 
 // Base parameters
 base_diameter_large  = 90; //mm
@@ -31,7 +39,7 @@ core_height          = 35; //mm
 // Other parameters
 hole_diameter        = 5; //mm
 washer_diameter      = 10; //mm
-pin_diameter         = 0.1; //m
+pin_diameter         = 0.3; //m
 circular_precision   = 100;
 shim                 = 0.1; //mm
 

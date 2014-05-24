@@ -22,7 +22,7 @@ printer_extrusion_width = 0.6; //mm
 // Nut parameters
 // What you need is the diameter of the circle around the nut
 // a. you may enter the nut size (i.e. the spanner size):
-nut_size             = 22.52; //mm - the nut "spanner" size
+nut_size             = 24.00; //mm - the nut "spanner" size
 // b. or you may enter the nut diameter (which will always be twice once of the side lengths):
 nut_diameter         = (((nut_size/2) / cos(30)) + printer_extrusion_width) *2; //mm - this is the circular diameter not nut size
 // nut_diameter      = 27; //mm - uncomment line to over-ride calculation from nut size

@@ -91,8 +91,8 @@ module repair() {
                 for (a = [30 : 60 : 360] ) {
                     rotate( a = [0, 0, a] ) {
                         for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
-                            translate( v = [ core_diameter_small * 0.43, y, layer_height] ) {
-                                # cylinder( r = pin_diameter/2, core_height - layer_height * 2, $fn = circular_precision );
+                            translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
+                                # cylinder( r = pin_diameter/2, core_height - layer_height * 3, $fn = circular_precision );
                             }
                         }
                     }

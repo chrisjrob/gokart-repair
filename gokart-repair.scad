@@ -22,7 +22,7 @@ printer_extrusion_width = 0.6; //mm
 // Nut parameters
 // What you need is the diameter of the circle around the nut
 // a. you may enter the nut size (i.e. the spanner size):
-nut_size             = 24.00; //mm - the nut "spanner" size
+nut_size             = 23.40; //mm - the nut "spanner" size
 // b. or you may enter the nut diameter (which will always be twice once of the side lengths):
 nut_diameter         = (((nut_size/2) / cos(30)) + printer_extrusion_width) *2; //mm - this is the circular diameter not nut size
 // nut_diameter      = 27; //mm - uncomment line to over-ride calculation from nut size
@@ -70,27 +70,29 @@ module repair() {
             translate( v = [0, 0, core_height - 3]) {
                 cylinder(r2=nut_diameter/2 + 3,r1=nut_diameter/2,h=3+shim,$fn=6);
             }
-            // Bolt holes and washers around base
-            for (a = [0 : 60 : 360] ) {
-                rotate( a = [0, 0, a] ) {
-                    // Bolt holes
-                    translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2, 0, -shim] ) {
-                        cylinder( r = hole_diameter/2, core_height + 0.2, $fn = circular_precision );
-                    }
-                    // Washer holes
-                    translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2 +washer_diameter/3, 0, core_height * 0.3] ) {
-                        scale([ 1, 1, 1 ]) {
-                            cylinder( r1 = washer_diameter, r2 = washer_diameter * 1.5, core_height + 0.2, $fn = circular_precision );
+            if (select == 1) {
+                // Bolt holes and washers around base
+                for (a = [0 : 60 : 360] ) {
+                    rotate( a = [0, 0, a] ) {
+                        // Bolt holes
+                        translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2, 0, -shim] ) {
+                            cylinder( r = hole_diameter/2, core_height + 0.2, $fn = circular_precision );
+                        }
+                        // Washer holes
+                        translate( v = [ (base_diameter_small - (base_diameter_small - core_diameter_large)/2)/2 +washer_diameter/3, 0, core_height * 0.3] ) {
+                            scale([ 1, 1, 1 ]) {
+                                cylinder( r1 = washer_diameter, r2 = washer_diameter * 1.5, core_height + 0.2, $fn = circular_precision );
+                            }
                         }
                     }
                 }
-            }
-            // Strengthening pin holes
-            for (a = [30 : 60 : 360] ) {
-                rotate( a = [0, 0, a] ) {
-                    for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
-                        translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
-                            cylinder( r = pin_diameter/2, core_height + 0.2, $fn = circular_precision );
+                // Strengthening pin holes
+                for (a = [30 : 60 : 360] ) {
+                    rotate( a = [0, 0, a] ) {
+                        for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
+                            translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
+                                cylinder( r = pin_diameter/2, core_height + 0.2, $fn = circular_precision );
+                            }
                         }
                     }
                 }

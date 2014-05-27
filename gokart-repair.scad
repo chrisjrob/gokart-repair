@@ -39,8 +39,9 @@ core_height          = 35; //mm
 // Other parameters
 hole_diameter        = 5; //mm
 washer_diameter      = 10; //mm
-pin_diameter         = 0.3; //m
+pin_diameter         = 0.3; //mm
 circular_precision   = 100;
+layer_height         = 0.3; //mm
 shim                 = 0.1; //mm
 
 // Selection:
@@ -90,8 +91,8 @@ module repair() {
                 for (a = [30 : 60 : 360] ) {
                     rotate( a = [0, 0, a] ) {
                         for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
-                            translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
-                                cylinder( r = pin_diameter/2, core_height + 0.2, $fn = circular_precision );
+                            translate( v = [ core_diameter_small * 0.43, y, layer_height] ) {
+                                # cylinder( r = pin_diameter/2, core_height - layer_height * 2, $fn = circular_precision );
                             }
                         }
                     }

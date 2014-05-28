@@ -9,7 +9,8 @@ Description
 -----------
 Designed in OpenSCAD.
 This is a repair to a Go-Kart's steering wheel, to enable it to be reattached to the steering bolt.
-This is only suitable for go-karts that have a nut on the end of the steering shaft.
+This is only suitable for go-karts that have a nut on the end of the steering shaft. 
+This model provides a replacement junction between the steering nut and the steering wheel.
 
 The model has an option of adding strengthening pin holes around the nut (see Credits below). 
 Interestingly, if the pin holes do not protrude from at least one end of the model, the slicing program removes the pinholes entirely.

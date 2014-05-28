@@ -16,16 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// Extrusion width in mm
-printer_extrusion_width = 0.6; //mm
+// Printer accuracy
+printer_layer_height    = 0.3; //mm
+shim                    = 0.1; //mm
 
 // Nut parameters
 // What you need is the diameter of the circle around the nut
 // a. you may enter the nut size (i.e. the spanner size):
-nut_size             = 23.10; //mm - the nut "spanner" size
+nut_size             = 24; //mm - the nut "spanner" size
 // b. or you may enter the nut diameter (which will always be twice once of the side lengths):
-nut_diameter         = (((nut_size/2) / cos(30)) + printer_extrusion_width) *2; //mm - this is the circular diameter not nut size
-// nut_diameter      = 27; //mm - uncomment line to over-ride calculation from nut size
+nut_diameter         = (((nut_size/2) / cos(30)) *2) + shim; //mm - the circular diameter not nut size
+// nut_diameter      = 27.8736; //mm - uncomment line to over-ride calculation from nut size
 
 // Base parameters
 base_diameter_large  = 90; //mm
@@ -41,13 +42,18 @@ hole_diameter        = 5; //mm
 washer_diameter      = 10; //mm
 pin_diameter         = 0.3; //mm
 circular_precision   = 100;
-layer_height         = 0.3; //mm
-shim                 = 0.1; //mm
 
 // Selection:
 // 1 = the whole thing
 // 2 = nut test - for checking actual size of nut hole
 select = 1;
+
+// Strengthening Pin Holes
+// 0 = Off, 1 = On
+pin_holes = 0;
+
+echo("Nut diameter is:");
+echo(nut_diameter);
 
 module repair() {
 
@@ -88,11 +94,13 @@ module repair() {
                     }
                 }
                 // Strengthening pin holes
-                for (a = [30 : 60 : 360] ) {
-                    rotate( a = [0, 0, a] ) {
-                        for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
-                            translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
-                                # cylinder( r = pin_diameter/2, core_height - layer_height * 3, $fn = circular_precision );
+                if (pin_holes == 1) {
+                    for (a = [30 : 60 : 360] ) {
+                        rotate( a = [0, 0, a] ) {
+                            for (y = [-nut_diameter/4 : nut_diameter/8 : nut_diameter/4] ) {
+                                translate( v = [ core_diameter_small * 0.43, y, -shim] ) {
+                                    # cylinder( r = pin_diameter/2, core_height - printer_layer_height * 3, $fn = circular_precision );
+                                }
                             }
                         }
                     }

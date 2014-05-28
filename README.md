@@ -9,17 +9,20 @@ Description
 -----------
 Designed in OpenSCAD.
 This is a repair to a Go-Kart's steering wheel, to enable it to be reattached to the steering bolt.
+This is only suitable for go-karts that have a nut on the end of the steering shaft.
+
+The model has an option of adding strengthening pin holes around the nut (see Credits below). 
+Interestingly, if the pin holes do not protrude from at least one end of the model, the slicing program removes the pinholes entirely.
 
 Status
 ------
-Work in progress.
+Complete.
 
 Instructions
 ------------
-* Edit SCAD file with your preferred parameters
-* Alternatively download the included STL
-* Compile and export to STL
-* Slice and print
+* Edit SCAD file with your preferred parameters, in particular the steering nut size.
+* Compile and export to STL.
+* Slice and print.
 
 Credits
 -------
